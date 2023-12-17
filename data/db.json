@@ -1,0 +1,18 @@
+{
+
+    "blogs": [
+
+        {"title": "My New Website", 
+        "body": "    Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita voluptates quia saepe quae impedit obcaecati nihil, quo, distinctio ab reprehenderit cupiditate soluta a voluptatem tempora similique repudiandae blanditiis odit nobis?", 
+        "author": "mario",
+        "id": 1},
+
+        {"title": "Welcome party!", 
+        "body": "    Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita voluptates quia saepe quae impedit obcaecati nihil, quo, distinctio ab reprehenderit cupiditate soluta a voluptatem tempora similique repudiandae blanditiis odit nobis?",
+        "author": "luigi",
+        "id": 2}
+    ]
+
+
+
+}

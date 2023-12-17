@@ -10,6 +10,8 @@ const Home = () => {
             {title: 'Nature', body: '    Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita voluptates quia saepe quae impedit obcaecati nihil, quo, distinctio ab reprehenderit cupiditate soluta a voluptatem tempora similique repudiandae blanditiis odit nobis?', author: 'mario', id: 3}
         ])
 
+        const [name, setName] = useState('Mario');
+
         const handleDelete = (id) =>{
             const newBlogs = blogs.filter(blog => blog.id!==id);
             setBlogs(newBlogs);
@@ -19,12 +21,15 @@ const Home = () => {
         useEffect(() => {
             console.log('use effect ran');
             console.log(blogs);
-        });
+        }, [name]);
 
     return ( 
         <div className="Home">
+            
             <BlogList blogs = {blogs} title="All Blogs" handleDelete={handleDelete}/>
-            <BlogList blogs = {blogs.filter((blog)=> blog.author==='mario')} title="Marios Blogs"/>
+            <BlogList blogs = {blogs.filter((blog)=> blog.author==='mario')} title="Marios Blogs" handleDelete={handleDelete}/>
+            <button onClick={()=>setName('luigi')}>Click Me</button>
+            <p>{name}</p>
         
         
         </div>
