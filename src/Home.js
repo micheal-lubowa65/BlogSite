@@ -3,32 +3,46 @@ import BlogList from "./BlogList";
 
 const Home = () => {
 
-        const[blogs, setBlogs] = useState([
-
-            {title: 'My New Website', body: '    Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita voluptates quia saepe quae impedit obcaecati nihil, quo, distinctio ab reprehenderit cupiditate soluta a voluptatem tempora similique repudiandae blanditiis odit nobis?', author: 'mario', id: 1},
-            {title: 'Welcome party!', body: '    Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita voluptates quia saepe quae impedit obcaecati nihil, quo, distinctio ab reprehenderit cupiditate soluta a voluptatem tempora similique repudiandae blanditiis odit nobis?', author: 'luigi', id: 2},
-            {title: 'Nature', body: '    Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita voluptates quia saepe quae impedit obcaecati nihil, quo, distinctio ab reprehenderit cupiditate soluta a voluptatem tempora similique repudiandae blanditiis odit nobis?', author: 'mario', id: 3}
-        ])
+        const[blogs, setBlogs] = useState(null)
 
         const [name, setName] = useState('Mario');
 
-        const handleDelete = (id) =>{
-            const newBlogs = blogs.filter(blog => blog.id!==id);
-            setBlogs(newBlogs);
-        }
+        const [isPending, setIsPending] = useState(true);
 
-
+        const[error, setError] = useState(null);
         useEffect(() => {
-            console.log('use effect ran');
-            console.log(blogs);
-        }, [name]);
+           setTimeout(()=> {
+            fetch(' http://localhost:8000/blogs')
+                .then(res =>{
+
+                    console.log(res);
+
+                    if(!res.ok){
+                        throw Error('Couldnt FETCH data for that resource')
+                    }
+
+                    return res.json(); 
+                })
+                .then(data =>{
+                        console.log(data);
+                        setBlogs(data);
+                        setIsPending(false);
+                        setError(null);
+                    }) 
+                    .catch(err=>{
+                        setIsPending(false)
+                    setError(err.message)     
+                    })
+           }, 1000)
+        }, []);
 
     return ( 
         <div className="Home">
-            
-            <BlogList blogs = {blogs} title="All Blogs" handleDelete={handleDelete}/>
-            <BlogList blogs = {blogs.filter((blog)=> blog.author==='mario')} title="Marios Blogs" handleDelete={handleDelete}/>
-            <button onClick={()=>setName('luigi')}>Click Me</button>
+            {error && <div>{error}</div>}
+            {isPending && <div>Loading...</div>}
+            {blogs && <BlogList blogs = {blogs} title="All Blogs" /> }
+           
+           <button onClick={()=>setName('luigi')}>Click Me</button>
             <p>{name}</p>
         
         
